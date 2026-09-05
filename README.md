@@ -1,10 +1,10 @@
 <div align="center">
 
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:7F00FF,50:00C6FF,100:00F5D4&height=220&section=header&text=ONEPAY&fontSize=64&fontColor=ffffff&animation=fadeIn&fontAlignY=38" width="100%" alt="ONEPAY Banner">
+
 # ONEPAY
 
-### WhatsApp Store & Payment Bot
-
-Bot WhatsApp berbasis Node.js untuk membangun sistem toko, layanan otomatis, dan alur pembayaran langsung dari WhatsApp.
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=900&color=00C6FF&center=true&vCenter=true&width=600&lines=WhatsApp+Store+%26+Payment+Bot;Node.js+%2B+Baileys;Automate.+Integrate.+Scale." alt="Typing SVG" /></a>
 
 <br>
 
@@ -15,7 +15,7 @@ Bot WhatsApp berbasis Node.js untuk membangun sistem toko, layanan otomatis, dan
 
 <br><br>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00c6ff,100:0072ff&height=180&section=header&text=ONEPAY&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=38" width="100%" alt="ONEPAY Banner">
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=nexacodeid&repo=ONEPAY&theme=react-dark&hide_border=true&area=true" width="95%" alt="Activity Graph">
 
 </div>
 
@@ -23,7 +23,7 @@ Bot WhatsApp berbasis Node.js untuk membangun sistem toko, layanan otomatis, dan
 
 **ONEPAY** adalah bot WhatsApp berbasis **Node.js + Baileys** yang dirancang sebagai fondasi untuk toko digital dan sistem otomatisasi WhatsApp.
 
-Struktur project dibuat modular agar fitur dapat dikembangkan melalui handler, plugin, database, template, dan konfigurasi tanpa harus mengacak-acak seluruh source code. Karena hidup sudah cukup berantakan, source code tidak perlu ikut-ikutan.
+Struktur project dibuat modular agar fitur dapat dikembangkan melalui handler, plugin, database, template, dan konfigurasi tanpa harus mengacak-acak seluruh source code.
 
 ## Features
 
@@ -94,8 +94,6 @@ Sesuaikan konfigurasi pada:
 config.js
 ```
 
-Pastikan seluruh konfigurasi yang dibutuhkan sudah benar sebelum menjalankan bot.
-
 ### 4. Start bot
 
 ```bash
@@ -110,7 +108,7 @@ node index.js
 
 ## Development
 
-Untuk mengembangkan fitur baru, area utama yang dapat diperhatikan adalah:
+Area utama untuk pengembangan:
 
 - `plugins/` untuk fitur/plugin
 - `handler.js` untuk alur pemrosesan pesan
@@ -135,9 +133,11 @@ Gunakan bot sesuai kebijakan platform dan hukum yang berlaku. Jangan menggunakan
 
 ### NEXACODE ID
 
-Built with JavaScript, caffeine, and questionable life decisions.
+<img src="https://github-profile-trophy.vercel.app/?username=nexacodeid&theme=onestar&no-frame=true&no-bg=true&margin-w=8&row=1" width="90%" alt="GitHub Trophies">
 
-[![GitHub](https://img.shields.io/badge/GitHub-nexacodeid-181717?style=for-the-badge&logo=github)](https://github.com/nexacodeid)
+<a href="https://github.com/nexacodeid">
+<img src="https://img.shields.io/badge/GitHub-nexacodeid-181717?style=for-the-badge&logo=github" alt="GitHub">
+</a>
 
 </div>
 
@@ -147,9 +147,9 @@ Jika menemukan bug atau ingin mengembangkan fitur, gunakan **Issues** atau **Pul
 
 <div align="center">
 
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00F5D4,50:00C6FF,100:7F00FF&height=150&section=footer&animation=twinkling" width="100%" alt="Animated Footer">
+
 ### ONEPAY
 **Automate. Integrate. Scale.**
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0072ff,100:00c6ff&height=120&section=footer" width="100%" alt="Footer">
 
 </div>
