@@ -131,24 +131,6 @@ Project ini dibuat untuk pengembangan, pembelajaran, dan automation WhatsApp sec
 
 Jangan gunakan project untuk spam, penipuan, penyalahgunaan akun, atau aktivitas yang melanggar kebijakan platform maupun hukum yang berlaku.
 
-## Author
-
-<div align="center">
-
-### 🏆 GitHub Trophies
-
-[![GitHub Trophies](https://github-profile-trophy.vercel.app/?username=nexacodeid&theme=tokyonight&no-frame=true&no-bg=true&margin-w=8&row=1&v=2)](https://github.com/nexacodeid)
-
-### 📊 GitHub Stats
-
-[![NEXACODE ID GitHub Stats](https://github-readme-stats.vercel.app/api?username=nexacodeid&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github&include_all_commits=true&v=2)](https://github.com/nexacodeid)
-
-### 💻 Top Languages
-
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=nexacodeid&layout=compact&theme=tokyonight&hide_border=true&langs_count=8&v=2)](https://github.com/nexacodeid)
-
-</div>
-
 ## Support
 
 Gunakan **Issues** atau **Pull Requests** untuk melaporkan bug dan mengembangkan fitur.
