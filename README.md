@@ -135,15 +135,17 @@ Jangan gunakan project untuk spam, penipuan, penyalahgunaan akun, atau aktivitas
 
 <div align="center">
 
-<img src="https://github-profile-trophy.vercel.app/?username=nexacodeid&theme=onestar&no-frame=true&no-bg=true&margin-w=8&row=1" width="90%" alt="GitHub Trophies">
+### 🏆 GitHub Trophies
 
-### NEXACODE ID
+[![GitHub Trophies](https://github-profile-trophy.vercel.app/?username=nexacodeid&theme=tokyonight&no-frame=true&no-bg=true&margin-w=8&row=1&v=2)](https://github.com/nexacodeid)
 
-<img src="https://github-readme-stats.vercel.app/api?username=nexacodeid&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github" alt="GitHub Stats">
+### 📊 GitHub Stats
 
-<br><br>
+[![NEXACODE ID GitHub Stats](https://github-readme-stats.vercel.app/api?username=nexacodeid&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github&include_all_commits=true&v=2)](https://github.com/nexacodeid)
 
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=nexacodeid&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages">
+### 💻 Top Languages
+
+[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=nexacodeid&layout=compact&theme=tokyonight&hide_border=true&langs_count=8&v=2)](https://github.com/nexacodeid)
 
 </div>
 
