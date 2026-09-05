@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Store OnePay - Add Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        [x-cloak] { display: none !important; }
+        .bg-main { background-color: #0f172a; }
+        .card-panel { background: #1e293b; }
+        .text-gradient { background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        ::-webkit-scrollbar { height: 6px; width: 6px; }
+        ::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px;}
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-main text-slate-200 font-sans min-h-screen py-10 px-4 sm:px-6 relative overflow-x-hidden selection:bg-indigo-500/30">
+    
+    <div x-data="productApp()" x-cloak class="pb-32">
+        <div @show-toast.window="toast = $event.detail; setTimeout(() => toast = '', 3000)" 
+             class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] transition-all duration-300"
+             :class="toast !== '' ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'">
+            <div class="bg-indigo-600 text-white px-6 py-3 rounded-full shadow-lg text-sm font-medium flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span x-text="toast"></span>
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto animate__animated animate__fadeInUp">
+            <div class="text-center space-y-2 mb-8">
+                <h1 class="text-4xl font-extrabold text-gradient tracking-tight" x-text="tokoName"></h1>
+                <p class="text-slate-400 text-sm">Product Management System</p>
+            </div>
+
+            <div class="flex gap-2 overflow-x-auto pb-4 mb-6 items-center border-b border-slate-700/50">
+                <template x-for="(prod, idx) in products" :key="prod.id">
+                    <button @click="activeTab = idx" 
+                        class="px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap flex items-center gap-2"
+                        :class="activeTab === idx ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200'">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                        Produk <span x-text="idx + 1"></span>
+                        <span @click.stop="removeProductTab(idx)" x-show="products.length > 1" class="ml-2 hover:bg-red-500/20 text-slate-400 hover:text-red-400 p-1 rounded-md transition-colors"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></span>
+                    </button>
+                </template>
+                <button @click="addProductTab()" class="px-5 py-2.5 rounded-xl font-medium text-sm border border-dashed border-slate-600 text-slate-400 hover:text-white hover:border-slate-400 transition-colors whitespace-nowrap flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Tambah Produk
+                </button>
+            </div>
+
+            <template x-for="(prod, pIdx) in products" :key="prod.id">
+                <div x-show="activeTab === pIdx" class="space-y-8 animate__animated animate__fadeIn">
+                    
+                    <div class="card-panel border border-slate-700/50 p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                        <div class="flex items-center gap-3 border-b border-slate-700 pb-4 mb-2">
+                            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <h2 class="text-lg font-bold text-white">Informasi Dasar</h2>
+                        </div>
+
+                        <div class="space-y-3">
+                            <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Tipe Produk</label>
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <label class="cursor-pointer flex-1 group">
+                                    <input type="radio" x-model="prod.type" value="static" class="hidden peer">
+                                    <div class="border border-slate-700 bg-slate-800/50 p-4 rounded-xl text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500/10 peer-checked:text-indigo-300 transition-all group-hover:border-slate-500 flex items-center justify-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                                        <div class="text-left">
+                                            <div class="font-bold text-sm">Statis</div>
+                                            <div class="text-[10px] text-slate-500">Hanya Data Varian</div>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer flex-1 group">
+                                    <input type="radio" x-model="prod.type" value="dynamic" class="hidden peer">
+                                    <div class="border border-slate-700 bg-slate-800/50 p-4 rounded-xl text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500/10 peer-checked:text-indigo-300 transition-all group-hover:border-slate-500 flex items-center justify-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                                        <div class="text-left">
+                                            <div class="font-bold text-sm">Dinamis</div>
+                                            <div class="text-[10px] text-slate-500">Dilengkapi Sistem Stok</div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                           <div class="space-y-2 relative" x-data="{ openCat: false, get filteredCats() { return categoriesList.filter(c => c.toLowerCase().includes(prod.category.toLowerCase())) } }">
+                                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Kategori</label>
+                                <div class="relative">
+                                    <input 
+                                        x-model="prod.category" 
+                                        @click="openCat = !openCat"
+                                        @input="openCat = true"
+                                        @click.away="openCat = false"
+                                        type="text" 
+                                        class="w-full bg-slate-800/50 border border-slate-600 rounded-xl px-4 py-3 focus:border-indigo-500 outline-none text-sm" 
+                                        placeholder="Pilih atau ketik baru"
+                                    >
+                                    <div @click="openCat = !openCat" class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer text-slate-400">
+                                        <svg class="w-4 h-4 transition-transform duration-200" :class="openCat ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            
+                                <div 
+                                    x-show="openCat" 
+                                    x-transition:enter="transition ease-out duration-100"
+                                    x-transition:enter-start="opacity-0 transform scale-95"
+                                    x-transition:enter-end="opacity-100 transform scale-100"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    x-transition:leave-start="opacity-100 transform scale-100"
+                                    x-transition:leave-end="opacity-0 transform scale-95"
+                                    class="absolute z-50 left-0 right-0 mt-1 max-h-48 overflow-y-auto bg-slate-800 border border-slate-700 rounded-xl shadow-2xl divide-y divide-slate-700/50"
+                                    style="display: none;"
+                                >
+                                    <template x-for="cat in filteredCats" :key="cat">
+                                        <button 
+                                            type="button"
+                                            @mousedown="prod.category = cat; openCat = false"
+                                            class="w-full text-left px-4 py-3 text-sm text-slate-300 hover:bg-indigo-600 hover:text-white transition-colors block"
+                                            x-text="cat"
+                                        ></button>
+                                    </template>
+                            
+                                    <div x-show="prod.category && !categoriesList.includes(prod.category)" class="px-4 py-3 text-sm text-indigo-400 bg-indigo-500/10 font-medium cursor-pointer hover:bg-indigo-500/20" @mousedown="openCat = false">
+                                        ✨ Bikin baru: "<span x-text="prod.category"></span>"
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Nama Produk</label>
+                                <input x-model="prod.name" type="text" class="w-full bg-slate-800/50 border border-slate-600 rounded-xl px-4 py-3 focus:border-indigo-500 outline-none text-sm" placeholder="Masukkan nama produk">
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Deskripsi</label>
+                            <textarea x-model="prod.description" rows="3" class="w-full bg-slate-800/50 border border-slate-600 rounded-xl px-4 py-3 focus:border-indigo-500 outline-none text-sm resize-none" placeholder="Tuliskan detail produk..."></textarea>
+                        </div>
+                    </div>
+
+                    <template x-if="prod.type === 'static'">
+                        <div class="space-y-4">
+                            <div class="flex flex-wrap justify-between items-end gap-3">
+                                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg> Konfigurasi Varian
+                                </h2>
+                                <div class="flex items-center gap-2">
+                                    <button x-show="prod.staticVariants.some(v => v.selected)" @click="deleteSelectedStatic(pIdx)" class="text-xs bg-red-500/10 text-red-400 hover:bg-red-500/20 px-3 py-2 rounded-lg font-medium flex items-center gap-1 animate__animated animate__fadeIn">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg> Hapus Terpilih
+                                    </button>
+                                    <button @click="addStaticVariant(pIdx)" class="text-sm bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 px-4 py-2 rounded-lg font-medium flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Varian Baru
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4">
+                                <template x-for="(v, vIdx) in prod.staticVariants" :key="v.id">
+                                    <div class="card-panel border rounded-2xl relative shadow-lg transition-colors p-6" :class="v.selected ? 'border-indigo-500 bg-indigo-500/5' : 'border-slate-700'">
+                                        
+                                        <div class="absolute top-4 right-4 flex items-center gap-3">
+                                            <input type="checkbox" x-model="v.selected" class="w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-500 focus:ring-0 cursor-pointer">
+                                            <button @click="removeStaticVariant(pIdx, vIdx)" class="text-slate-500 hover:text-red-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                                        </div>
+                                        
+                                        <div class="mb-5 max-w-xs pr-10">
+                                            <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 block">Harga Varian</label>
+                                            <div class="flex items-center gap-3 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2">
+                                                <span class="text-slate-500 font-medium text-sm">Rp</span>
+                                                <input x-model.number="v.price" type="number" class="w-full bg-transparent border-none outline-none text-white font-mono text-sm">
+                                            </div>
+                                        </div>
+
+                                        <div class="space-y-3">
+                                            <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                                                <span class="text-sm font-medium text-slate-300">Kolom Data</span>
+                                                <button @click="addStaticField(pIdx, vIdx)" class="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Tambah Kolom</button>
+                                            </div>
+                                            <div class="space-y-2">
+                                                <template x-for="(field, fIdx) in v.fields" :key="fIdx">
+                                                    <div class="flex gap-3 items-center">
+                                                        <input x-model="field.key" type="text" placeholder="Key (ex: Nama)" class="w-1/3 bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-xs outline-none focus:border-indigo-500">
+                                                        <input x-model="field.value" type="text" placeholder="Value (ex: 1 Bulan)" class="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-xs outline-none focus:border-indigo-500">
+                                                        <button @click="removeStaticField(pIdx, vIdx, fIdx)" class="text-slate-500 hover:text-red-400 p-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template x-if="prod.type === 'dynamic'">
+                        <div class="space-y-6">
+                            <div class="flex flex-wrap justify-between items-end gap-3">
+                                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg> Data Varian & Stok
+                                </h2>
+                                <div class="flex gap-2">
+                                    <button x-show="prod.dynamicVariants.some(v => v.selected)" @click="deleteSelectedDynamic(pIdx)" class="text-xs bg-red-500/10 text-red-400 hover:bg-red-500/20 px-3 py-2 rounded-lg font-medium flex items-center gap-1">
+                                        Hapus Varian
+                                    </button>
+                                    <button @click="addDynamicVariant(pIdx)" class="text-sm bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 px-4 py-2 rounded-lg font-medium flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Varian Baru
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="space-y-6">
+                                <template x-for="(v, vIdx) in prod.dynamicVariants" :key="v.id">
+                                    <div class="card-panel border rounded-2xl p-5 relative shadow-lg" :class="v.selected ? 'border-indigo-500 bg-indigo-500/5' : 'border-slate-600'">
+                                        
+                                        <div class="absolute top-4 right-4 flex items-center gap-3">
+                                            <input type="checkbox" x-model="v.selected" class="w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-500 focus:ring-0 cursor-pointer">
+                                            <button @click="removeDynamicVariant(pIdx, vIdx)" class="text-slate-500 hover:text-red-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                                        </div>
+                                        
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5 pr-14">
+                                            <div>
+                                                <label class="text-xs font-semibold text-slate-400 uppercase block mb-1">Nama Varian</label>
+                                                <input x-model="v.name" type="text" placeholder="ex: Premium 1 Bln" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm outline-none focus:border-indigo-500">
+                                            </div>
+                                            <div>
+                                                <label class="text-xs font-semibold text-slate-400 uppercase block mb-1">Harga</label>
+                                                <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2">
+                                                    <span class="text-slate-500 font-medium text-sm">Rp</span>
+                                                    <input x-model.number="v.price" type="number" class="w-full bg-transparent border-none outline-none text-white font-mono text-sm">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-slate-900/40 rounded-xl border border-slate-700 p-4">
+                                            <div class="flex flex-wrap justify-between items-center mb-3 border-b border-slate-700 pb-2">
+                                                <div class="flex items-center gap-3">
+                                                    <span class="text-xs font-semibold text-indigo-300">Data Stok (<span x-text="v.stocks.length"></span>)</span>
+                                                    <button x-show="v.stocks.some(s => s.selected)" @click="deleteSelectedStock(pIdx, vIdx)" class="text-[10px] bg-red-500/10 text-red-400 px-2 py-1 rounded">Hapus Terpilih</button>
+                                                </div>
+                                                <div class="flex gap-2">
+                                                    <button @click="openMassModal(pIdx, vIdx)" class="text-[10px] bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded flex items-center gap-1 text-white font-medium transition-colors">
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Massal
+                                                    </button>
+                                                    <button @click="addDynamicStock(pIdx, vIdx)" class="text-[10px] bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 px-3 py-1.5 rounded font-medium">+ Stok Manual</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="space-y-3">
+                                                <template x-for="(s, sIdx) in v.stocks" :key="s.id">
+                                                    <div class="bg-slate-800 border rounded-lg p-3 relative flex items-start gap-3" :class="s.selected ? 'border-indigo-500' : 'border-slate-600'">
+                                                        
+                                                        <div class="mt-1">
+                                                            <input type="checkbox" x-model="s.selected" class="w-4 h-4 rounded border-slate-600 bg-slate-900 text-indigo-500 cursor-pointer">
+                                                        </div>
+
+                                                        <div class="flex-1 min-w-0">
+                                                            <div class="flex justify-between items-center mb-2">
+                                                                <span class="text-[10px] text-slate-400 font-bold bg-slate-900 px-2 py-0.5 rounded" x-text="'Stok #' + (sIdx + 1)"></span>
+                                                                <div class="flex items-center gap-2">
+                                                                    <button @click="duplicateStock(pIdx, vIdx, sIdx)" class="text-[10px] text-slate-400 hover:text-indigo-400 flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Duplikat</button>
+                                                                    <button @click="addDynamicField(pIdx, vIdx, sIdx)" class="text-[10px] text-indigo-400 hover:text-indigo-300 font-medium">+ Kolom</button>
+                                                                    <button @click="removeDynamicStock(pIdx, vIdx, sIdx)" class="text-[10px] text-slate-500 hover:text-red-400 ml-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="space-y-1.5">
+                                                                <template x-for="(field, fIdx) in s.fields" :key="fIdx">
+                                                                    <div class="flex gap-2 items-center">
+                                                                        <input x-model="field.key" type="text" placeholder="Key" class="w-1/3 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] outline-none font-mono">
+                                                                        <input x-model="field.value" type="text" placeholder="Value" class="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] outline-none font-mono text-indigo-200">
+                                                                        <button @click="removeDynamicField(pIdx, vIdx, sIdx, fIdx)" class="text-slate-500 hover:text-red-400"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+
+        <div class="fixed bottom-6 right-6 flex items-center gap-3 z-40 animate__animated animate__bounceInUp">
+            <button @click="showHelpModal = true" class="w-14 h-14 bg-slate-800 border border-slate-600 rounded-2xl flex justify-center items-center text-slate-300 hover:bg-slate-700 hover:text-white shadow-xl transition-all active:scale-95">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button @click="generatePayload()" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-4 rounded-2xl font-bold text-white shadow-lg shadow-indigo-500/30 transition-all active:scale-95 flex items-center gap-2 tracking-wide border border-indigo-400/20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                Generate Bridge Code
+            </button>
+        </div>
+
+        <div x-show="showMassModal" class="fixed inset-0 bg-slate-900/90 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+            <div class="card-panel border border-slate-700 p-6 rounded-3xl max-w-xl w-full animate__animated animate__zoomIn">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-white">Tambah Stok Massal</h2>
+                    <button @click="showMassModal = false" class="text-slate-400 hover:text-white bg-slate-800 p-2 rounded-xl"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-xl text-sm text-indigo-200">
+                        <p class="font-bold mb-2">Aturan Format Massal:</p>
+                        <ul class="list-disc pl-5 space-y-1 text-xs">
+                            <li>Gunakan <b class="text-white">Enter</b> untuk menambah baris antar kolom.</li>
+                            <li>Gunakan <b class="text-white">Titik Dua ( : )</b> untuk memisahkan Nama Kolom dan Isinya.</li>
+                            <li>Gunakan <b class="text-white">Koma ( , )</b> untuk memisahkan antar Stok.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-2">Paste Data Mentah Disini</label>
+                        <textarea x-model="massText" rows="7" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm font-mono outline-none focus:border-indigo-500 whitespace-pre" placeholder="Email: akun1@mail.com&#10;Pass: 123456,&#10;Email: akun2@mail.com&#10;Pass: qwerty"></textarea>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <button @click="showMassModal = false" class="flex-1 bg-slate-800 py-3 rounded-xl text-sm font-bold text-slate-300">Batal</button>
+                    <button @click="processMassAdd()" class="flex-1 bg-indigo-600 py-3 rounded-xl text-sm font-bold text-white">Eksekusi Data</button>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="showHelpModal" class="fixed inset-0 bg-slate-900/90 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+            <div class="card-panel border border-slate-700 p-6 sm:p-8 rounded-3xl max-w-2xl w-full animate__animated animate__zoomIn" @click.away="showHelpModal = false">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                    <h2 class="text-2xl font-bold text-indigo-400 flex items-center gap-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Panduan Lengkap Penggunaan
+                    </h2>
+                    <button @click="showHelpModal = false" class="text-slate-400 hover:text-white bg-slate-800 p-2 rounded-xl"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                </div>
+                <div class="space-y-6 text-sm text-slate-300 max-h-[60vh] overflow-y-auto pr-4">
+                    <div>
+                        <h3 class="text-white font-bold text-base mb-2">1. Produk Statis vs Dinamis</h3>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><b>Statis:</b> Cocok untuk produk yang tidak butuh data stok spesifik (misal: Joki, Topup via ID). Kamu bebas membuat nama kolom yang nantinya wajib diisi oleh pembeli saat transaksi.</li>
+                            <li><b>Dinamis:</b> Cocok untuk produk akun/software siap kirim. Sistem akan mengunci pembelian sesuai dengan ketersediaan stok fisik yang kamu masukkan di sini.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold text-base mb-2">2. Sistem Kolom Data (Field)</h3>
+                        <p>Web ini tidak membatasi bentuk data. Kamu bebas menambah tombol <b>"+ Kolom"</b> di setiap varian atau stok. Ganti Key (contoh: "Email") dan Value (contoh: "admin@mail.com") menyesuaikan jenis produk jualanmu.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold text-base mb-2">3. Tambah Stok Massal (Khusus Dinamis)</h3>
+                        <p class="mb-2">Gunakan format ini di menu aksi "Massal" untuk memasukkan ratusan akun sekaligus tanpa ketik satu per satu:</p>
+                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-700 font-mono text-xs text-indigo-300 mb-2">
+                            Email: akun1@mail.com<br>
+                            Pass: 123456,<br>
+                            Email: akun2@mail.com<br>
+                            Pass: qwerty
+                        </div>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><b>Titik Dua ( : )</b> untuk memisahkan Nama Kolom dan Isi kolomnya.</li>
+                            <li><b>Enter (Baris Baru)</b> untuk menambah baris informasi dalam 1 stok yang sama.</li>
+                            <li><b>Koma ( , )</b> untuk mengakhiri 1 stok dan memotong data agar beralih ke stok berikutnya.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold text-base mb-2">4. Aksi Cepat (Duplikat & Hapus Massal)</h3>
+                        <p>Centang kotak kecil di sebelah kiri varian/stok. Tombol <b>"Hapus Terpilih"</b> warna merah akan muncul di atas untuk membersihkan data dalam sekejap. Gunakan tombol <b>"Duplikat"</b> untuk menyalin stok yang sama berkali-kali tanpa ribet ketik ulang.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="showResultModal" class="fixed inset-0 bg-slate-900/90 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+            <div class="card-panel border border-slate-700 p-8 rounded-3xl max-w-md w-full text-center animate__animated animate__zoomIn shadow-2xl">
+                <div class="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/30">
+                    <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-2xl font-bold mb-2 text-white">Code Generated!</h2>
+                <p class="text-sm text-slate-400 mb-6">Salin bridge code ini dan kirim ke bot untuk menyimpan <b x-text="products.length"></b> produk.</p>
+                <div class="bg-slate-900 border border-slate-700 p-4 rounded-xl mb-8 text-left relative overflow-hidden">
+                    <p class="break-all text-xs text-indigo-300 font-mono select-all line-clamp-4" x-text="payload"></p>
+                </div>
+                <div class="flex gap-3">
+                    <button @click="showResultModal = false" class="flex-1 bg-slate-800 py-3 rounded-xl font-semibold">Tutup</button>
+                    <button @click="copyToClipboard()" class="flex-1 bg-indigo-600 text-white py-3 rounded-xl font-semibold flex justify-center items-center gap-2">Salin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const INJECTED_TOKO = "[[TOKO_NAME]]";
+        const INJECTED_CATS = "[[CATEGORIES]]";
+
+        function productApp() {
+            return {
+                tokoName: INJECTED_TOKO.includes('[[TOKO') ? 'OnePay Store' : INJECTED_TOKO,
+                categoriesList: Array.isArray(INJECTED_CATS) ? INJECTED_CATS : (INJECTED_CATS.includes('[[CAT') ? ['Premium App', 'Topup Game'] : []),
+                
+                products: [],
+                activeTab: 0,
+                
+                showResultModal: false,
+                showHelpModal: false,
+                payload: '',
+
+                showMassModal: false,
+                massPIdx: null, massVIdx: null, massText: '',
+
+                init() {
+                    this.addProductTab();
+                },
+
+                getNewProductTemplate() {
+                    return {
+                        id: Date.now() + Math.random(),
+                        type: 'static', name: '', description: '', category: '',
+                        staticVariants: [{ id: Date.now(), selected: false, price: 0, fields: [{ key: 'Nama', value: '' }] }],
+                        dynamicVariants: [{ 
+                            id: Date.now(), selected: false, name: '', price: 0, 
+                            stocks: [{ id: Date.now()+1, selected: false, fields: [{ key: 'User', value: '' }, { key: 'Pass', value: '' }] }] 
+                        }]
+                    }
+                },
+
+                addProductTab() {
+                    this.products.push(this.getNewProductTemplate());
+                    this.activeTab = this.products.length - 1;
+                },
+                removeProductTab(idx) {
+                    if(this.products.length > 1) {
+                        this.products.splice(idx, 1);
+                        this.activeTab = Math.max(0, this.activeTab - 1);
+                    }
+                },
+
+                addStaticVariant(pIdx) { this.products[pIdx].staticVariants.push({ id: Date.now(), selected: false, price: 0, fields: [{ key: 'Nama', value: '' }] }); },
+                removeStaticVariant(pIdx, vIdx) { if(this.products[pIdx].staticVariants.length > 1) this.products[pIdx].staticVariants.splice(vIdx, 1); },
+                deleteSelectedStatic(pIdx) {
+                    let remains = this.products[pIdx].staticVariants.filter(v => !v.selected);
+                    if(remains.length === 0) return $dispatch('show-toast', 'Minimal sisa 1 varian!');
+                    this.products[pIdx].staticVariants = remains;
+                },
+                addStaticField(pIdx, vIdx) { this.products[pIdx].staticVariants[vIdx].fields.push({ key: '', value: '' }); },
+                removeStaticField(pIdx, vIdx, fIdx) { this.products[pIdx].staticVariants[vIdx].fields.splice(fIdx, 1); },
+
+                addDynamicVariant(pIdx) { 
+                    this.products[pIdx].dynamicVariants.push({ 
+                        id: Date.now(), selected: false, name: '', price: 0, 
+                        stocks: [{ id: Date.now()+1, selected: false, fields: [{ key: 'User', value: '' }, { key: 'Pass', value: '' }] }] 
+                    }); 
+                },
+                removeDynamicVariant(pIdx, vIdx) { if(this.products[pIdx].dynamicVariants.length > 1) this.products[pIdx].dynamicVariants.splice(vIdx, 1); },
+                deleteSelectedDynamic(pIdx) {
+                    let remains = this.products[pIdx].dynamicVariants.filter(v => !v.selected);
+                    if(remains.length === 0) return $dispatch('show-toast', 'Minimal sisa 1 varian!');
+                    this.products[pIdx].dynamicVariants = remains;
+                },
+
+                addDynamicStock(pIdx, vIdx) { 
+                    let templateKeys = this.products[pIdx].dynamicVariants[vIdx].stocks[0].fields.map(f => f.key);
+                    let newFields = templateKeys.map(k => ({ key: k, value: '' }));
+                    this.products[pIdx].dynamicVariants[vIdx].stocks.push({ id: Date.now(), selected: false, fields: newFields }); 
+                },
+                removeDynamicStock(pIdx, vIdx, sIdx) { if(this.products[pIdx].dynamicVariants[vIdx].stocks.length > 1) this.products[pIdx].dynamicVariants[vIdx].stocks.splice(sIdx, 1); },
+                deleteSelectedStock(pIdx, vIdx) {
+                    let remains = this.products[pIdx].dynamicVariants[vIdx].stocks.filter(s => !s.selected);
+                    if(remains.length === 0) return $dispatch('show-toast', 'Minimal sisa 1 stok!');
+                    this.products[pIdx].dynamicVariants[vIdx].stocks = remains;
+                },
+                addDynamicField(pIdx, vIdx, sIdx) { this.products[pIdx].dynamicVariants[vIdx].stocks[sIdx].fields.push({ key: '', value: '' }); },
+                removeDynamicField(pIdx, vIdx, sIdx, fIdx) { this.products[pIdx].dynamicVariants[vIdx].stocks[sIdx].fields.splice(fIdx, 1); },
+
+                duplicateStock(pIdx, vIdx, sIdx) {
+                    let qty = prompt("Duplikat stok ini berapa kali? (Angka)");
+                    qty = parseInt(qty);
+                    if (isNaN(qty) || qty <= 0) return;
+                    let target = JSON.stringify(this.products[pIdx].dynamicVariants[vIdx].stocks[sIdx]);
+                    for(let i=0; i<qty; i++) {
+                        let clone = JSON.parse(target);
+                        clone.id = Date.now() + i + Math.random();
+                        clone.selected = false;
+                        this.products[pIdx].dynamicVariants[vIdx].stocks.push(clone);
+                    }
+                    $dispatch('show-toast', `Sukses duplikat ${qty}x!`);
+                },
+
+                openMassModal(pIdx, vIdx) {
+                    this.massPIdx = pIdx; this.massVIdx = vIdx; this.massText = ''; this.showMassModal = true;
+                },
+                processMassAdd() {
+                    if(!this.massText.trim()) return $dispatch('show-toast', 'Teks kosong!');
+                    let rawStocks = this.massText.split(',');
+                    let c = 0;
+                    
+                    rawStocks.forEach((raw, i) => {
+                        if(!raw.trim()) return;
+                        let lines = raw.split('\n');
+                        let parsedFields = [];
+                        
+                        lines.forEach(line => {
+                            let parts = line.split(':');
+                            if(parts.length >= 2) {
+                                let key = parts.shift().trim();
+                                let val = parts.join(':').trim();
+                                if(key && val) {
+                                    parsedFields.push({ key: key, value: val });
+                                }
+                            }
+                        });
+                        
+                        if(parsedFields.length > 0) {
+                            this.products[this.massPIdx].dynamicVariants[this.massVIdx].stocks.push({
+                                id: Date.now() + i + Math.random(), selected: false, fields: parsedFields
+                            });
+                            c++;
+                        }
+                    });
+                    
+                    this.showMassModal = false;
+                    $dispatch('show-toast', `Sukses tambah ${c} stok!`);
+                },
+
+                generatePayload() {
+                    let invalid = this.products.findIndex(p => !p.name || !p.category);
+                    if (invalid !== -1) {
+                        this.activeTab = invalid;
+                        return $dispatch('show-toast', `⚠️ Nama/Kategori di Produk ${invalid+1} masih kosong!`);
+                    }
+
+                    const finalPayload = this.products.map(p => {
+                        let variantsClean = p.type === 'static' 
+                            ? p.staticVariants.map(v => ({ price: v.price, fields: v.fields }))
+                            : p.dynamicVariants.map(v => ({
+                                name: v.name, price: v.price, 
+                                stocks: v.stocks.map(s => ({ fields: s.fields }))
+                            }));
+
+                        return {
+                            type: p.type,
+                            name: p.name,
+                            desc: p.description,
+                            cat: p.category,
+                            variants: variantsClean
+                        }
+                    });
+                    
+                    const encoded = btoa(encodeURIComponent(JSON.stringify(finalPayload)));
+                    this.payload = `.addproduk ${encoded}`;
+                    this.showResultModal = true;
+                },
+
+                copyToClipboard() {
+                    navigator.clipboard.writeText(this.payload);
+                    $dispatch('show-toast', '✅ Kode tersalin! Tempel di bot sekarang.');
+                    setTimeout(() => this.showResultModal = false, 1500);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+{
+  "orders": {},
+  "users": {
+    "36498900533327@lid": {
+      "name": "kyy",
+      "txHistory": []
+    }
+  },
+  "products": {
+    "PROD1787402561833052": {
+      "id": "PROD1787402561833052",
+      "type": "dynamic",
+      "name": "Ryu",
+      "desc": "",
+      "cat": "Ryu",
+      "variants": [
+        {
+          "name": "",
+          "price": 0,
+          "stocks": [
+            {
+              "fields": [
+                {
+                  "key": "User",
+                  "value": "1"
+                },
+                {
+                  "key": "Pass",
+                  "value": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "createdAt": "2026-08-22T12:42:41.833Z"
+    },
+    "PROD1787402561833117": {
+      "id": "PROD1787402561833117",
+      "type": "static",
+      "name": "Ryu",
+      "desc": "",
+      "cat": "Ryu",
+      "variants": [
+        {
+          "price": 30000,
+          "fields": [
+            {
+              "key": "Nama",
+              "value": "1 bulan"
+            }
+          ]
+        }
+      ],
+      "createdAt": "2026-08-22T12:42:41.833Z"
+    },
+    "PROD1787402963594052": {
+      "id": "PROD1787402963594052",
+      "type": "dynamic",
+      "name": "Panel ptroductyl",
+      "desc": "Panel ptroductyl ",
+      "cat": "Panel",
+      "variants": [
+        {
+          "name": "Panel",
+          "price": 0,
+          "stocks": [
+            {
+              "fields": [
+                {
+                  "key": "Pass",
+                  "value": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "createdAt": "2026-08-22T12:49:23.594Z"
+    }
+  }
+}
