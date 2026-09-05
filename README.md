@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:7F00FF,50:00C6FF,100:00F5D4&height=220&section=header&text=ONEPAY&fontSize=64&fontColor=ffffff&animation=fadeIn&fontAlignY=38" width="100%" alt="ONEPAY Banner">
+<img src="./media/onepay.png" width="180" alt="ONEPAY Logo">
 
 # ONEPAY
 
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=900&color=00C6FF&center=true&vCenter=true&width=600&lines=WhatsApp+Store+%26+Payment+Bot;Node.js+%2B+Baileys;Automate.+Integrate.+Scale." alt="Typing SVG" /></a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=22&pause=900&color=00C6FF&center=true&vCenter=true&width=700&lines=WhatsApp+Store+%26+Payment+Bot;Node.js+%2B+Baileys;Fast.+Modular.+Powerful.;Automate.+Integrate.+Scale." alt="ONEPAY Typing Animation">
 
 <br>
 
@@ -15,41 +15,50 @@
 
 <br><br>
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=nexacodeid&repo=ONEPAY&theme=react-dark&hide_border=true&area=true" width="95%" alt="Activity Graph">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:7F00FF,50:00C6FF,100:00F5D4&height=3&section=header" width="85%" alt="Divider">
 
 </div>
 
-## About
+## ONEPAY
 
-**ONEPAY** adalah bot WhatsApp berbasis **Node.js + Baileys** yang dirancang sebagai fondasi untuk toko digital dan sistem otomatisasi WhatsApp.
+**ONEPAY** adalah bot WhatsApp berbasis **Node.js + Baileys** untuk kebutuhan toko digital, automation, dan workflow pembayaran.
 
-Struktur project dibuat modular agar fitur dapat dikembangkan melalui handler, plugin, database, template, dan konfigurasi tanpa harus mengacak-acak seluruh source code.
+Project dibuat modular supaya pengembangan fitur tetap rapi melalui handler, plugin, database, template, dan library internal.
+
+<div align="center">
+
+<img src="./media/help.png" width="46%" alt="ONEPAY Help Preview">
+<img src="./media/produk.png" width="46%" alt="ONEPAY Product Preview">
+
+</div>
 
 ## Features
 
-- WhatsApp automation menggunakan Baileys
-- Sistem handler modular
-- Dukungan plugin
-- Struktur database terpisah
-- Template system
-- Media processing
-- Konfigurasi terpusat
-- Dukungan audio/video processing melalui FFmpeg
-- Image processing menggunakan Jimp
-- Logging menggunakan Pino
+- WhatsApp automation dengan Baileys
+- Pairing code untuk koneksi WhatsApp
+- Handler modular
+- Sistem plugin
+- Database terpisah
+- Template pesan
+- Image processing dengan Jimp
+- Audio/video processing dengan FFmpeg
+- File type detection
+- WebP processing
+- Logging dengan Pino
+- File watching dengan Chokidar
 - ES Modules
-- Mudah dikembangkan untuk kebutuhan toko dan payment workflow
+- Siap dikembangkan untuk toko digital dan payment workflow
 
 ## Tech Stack
 
-| Technology | Usage |
+| Technology | Fungsi |
 | --- | --- |
 | Node.js | Runtime utama |
-| Baileys | WhatsApp connection & messaging |
 | JavaScript | Bahasa pemrograman |
+| Baileys | WhatsApp connection & messaging |
 | Pino | Logging |
 | Jimp | Image processing |
-| FFmpeg | Media processing |
+| FFmpeg | Audio/video processing |
 | Chokidar | File watching |
 | Haruka Lib | Library pendukung |
 
@@ -57,99 +66,95 @@ Struktur project dibuat modular agar fitur dapat dikembangkan melalui handler, p
 
 ```text
 ONEPAY/
-├── database/       # Database & data storage
-├── lib/            # Library/helper internal
-├── media/          # Media assets
-├── plugins/        # Plugin dan fitur bot
-├── templates/      # Template pesan / sistem
-├── config.js       # Konfigurasi bot
-├── handler.js      # Handler utama
-├── index.js        # Entry point
-├── package.json    # Dependencies & scripts
-├── package-lock.json
-├── ONEPAY.zip
+├── database/          # Database & data storage
+├── lib/               # Helper & internal modules
+├── media/             # Image, QR & media assets
+├── plugins/           # Bot features / plugins
+├── templates/         # Message templates
+├── config.js          # Main configuration
+├── handler.js         # Message handler
+├── index.js           # Bot entry point
+├── package.json       # Dependencies & scripts
+├── package-lock.json  # Locked dependency versions
+├── ONEPAY.zip         # Project archive
 └── LICENSE
 ```
 
 ## Installation
 
-### 1. Clone repository
+### Requirements
+
+- Node.js 20+
+- npm
+- FFmpeg
+- Git
+
+### Setup
 
 ```bash
 git clone https://github.com/nexacodeid/ONEPAY.git
 cd ONEPAY
-```
-
-### 2. Install dependencies
-
-```bash
 npm install
+npm start
 ```
 
-### 3. Configure
+Untuk koneksi pertama, bot akan meminta nomor WhatsApp dan mencoba mengirim **pairing code**.
 
-Sesuaikan konfigurasi pada:
+## Configuration
+
+Konfigurasi utama berada di:
 
 ```text
 config.js
 ```
 
-### 4. Start bot
-
-```bash
-npm start
-```
-
-atau:
-
-```bash
-node index.js
-```
-
-## Development
-
-Area utama untuk pengembangan:
-
-- `plugins/` untuk fitur/plugin
-- `handler.js` untuk alur pemrosesan pesan
-- `lib/` untuk helper dan modul internal
-- `database/` untuk penyimpanan data
-- `templates/` untuk template pesan
-- `config.js` untuk konfigurasi
+Pastikan file konfigurasi dan data yang dibutuhkan sudah tersedia sebelum menjalankan bot.
 
 ## Media
 
-ONEPAY memiliki dukungan pemrosesan media untuk kebutuhan bot, termasuk image processing dan audio/video processing. Dependency project mencakup **Jimp**, **fluent-ffmpeg**, **file-type**, dan **node-webpmux**.
+Repository sudah memiliki asset asli di folder `media/`, termasuk logo ONEPAY, preview bantuan, preview produk, dan QR. README menggunakan asset repository secara langsung agar gambar tidak bergantung sepenuhnya pada layanan banner eksternal.
+
+## Development
+
+```text
+plugins/       -> tambah atau ubah fitur bot
+handler.js     -> alur pemrosesan pesan
+lib/           -> helper dan modul internal
+database/      -> penyimpanan data
+templates/     -> template pesan
+config.js      -> konfigurasi
+```
 
 ## Disclaimer
 
-Project ini disediakan untuk kebutuhan pengembangan, pembelajaran, dan otomatisasi WhatsApp yang digunakan secara bertanggung jawab.
+Project ini dibuat untuk pengembangan, pembelajaran, dan automation WhatsApp secara bertanggung jawab.
 
-Gunakan bot sesuai kebijakan platform dan hukum yang berlaku. Jangan menggunakan project ini untuk spam, penipuan, penyalahgunaan akun, atau aktivitas yang merugikan pengguna lain.
+Jangan gunakan project untuk spam, penipuan, penyalahgunaan akun, atau aktivitas yang melanggar kebijakan platform maupun hukum yang berlaku.
 
 ## Author
 
 <div align="center">
 
-### NEXACODE ID
-
 <img src="https://github-profile-trophy.vercel.app/?username=nexacodeid&theme=onestar&no-frame=true&no-bg=true&margin-w=8&row=1" width="90%" alt="GitHub Trophies">
 
-<a href="https://github.com/nexacodeid">
-<img src="https://img.shields.io/badge/GitHub-nexacodeid-181717?style=for-the-badge&logo=github" alt="GitHub">
-</a>
+### NEXACODE ID
+
+<img src="https://github-readme-stats.vercel.app/api?username=nexacodeid&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github" alt="GitHub Stats">
+
+<br><br>
+
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=nexacodeid&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages">
 
 </div>
 
 ## Support
 
-Jika menemukan bug atau ingin mengembangkan fitur, gunakan **Issues** atau **Pull Requests** di repository ini.
+Gunakan **Issues** atau **Pull Requests** untuk melaporkan bug dan mengembangkan fitur.
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00F5D4,50:00C6FF,100:7F00FF&height=150&section=footer&animation=twinkling" width="100%" alt="Animated Footer">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00F5D4,50:00C6FF,100:7F00FF&height=160&section=footer&animation=twinkling" width="100%" alt="Animated Footer">
 
-### ONEPAY
-**Automate. Integrate. Scale.**
+**ONEPAY • Automate. Integrate. Scale.**
 
 </div>
