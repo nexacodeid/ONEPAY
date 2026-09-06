@@ -3,12 +3,12 @@ import chalk from 'chalk'
 import { fileURLToPath } from 'url'
 
 // ================= ONEPAY CONFIGURATION =================
-global.namebot = "Bot Store OnePay"
+global.namebot = "DORAEMON STORE"
 global.versi = "1.0.0"
 global.paircode = "ONEPAY26"
-global.owner = ["62895623055666"]
+global.owner = ["628886326382"]
 global.prefix = ["!", ".", ","]
-global.premium = ["62xxx"]
+global.premium = ["6281221523185"]
 
 global.appConfig = {
   antispam: {
