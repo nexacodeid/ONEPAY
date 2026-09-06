@@ -21,13 +21,13 @@ global.appConfig = {
 }
 
 global.toko = {
-  nama: "OnePay Store",
+  nama: "Doraemon Store",
   status: "buka"
 }
 
 // Isi nomor payment milik ONEPAY di bawah ini. Tidak ada license checker/CDN eksternal.
 global.payment = {
-  qris: "./media/qris.png",
+  qris: "./media/IMG-20260906-WA0045.jpg",
   dana: "-",
   gopay: "-",
   ovo: "-",
