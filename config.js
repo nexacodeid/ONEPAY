@@ -37,7 +37,7 @@ global.payment = {
 }
 
 global.thumb = {
-  utama: "./media/onepay.png",
+  utama: "./media/IMG-20260906-WA0050.jpg",
   produk: "./media/produk.png",
   help: "./media/help.png"
 }
